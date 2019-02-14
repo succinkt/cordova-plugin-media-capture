@@ -304,7 +304,8 @@ public class Capture extends CordovaPlugin {
 
             if(Build.VERSION.SDK_INT > 7){
                 intent.putExtra("android.intent.extra.durationLimit", req.duration);
-                intent.putExtra("android.intent.extra.videoQuality", req.quality);
+                //intent.putExtra("android.intent.extra.videoQuality", req.quality);
+                intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
             }
             this.cordova.startActivityForResult((CordovaPlugin) this, intent, req.requestCode);
         }
