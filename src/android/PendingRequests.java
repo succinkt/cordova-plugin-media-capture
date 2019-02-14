@@ -176,7 +176,7 @@ public class PendingRequests {
         public int duration = 0;
 
         // Quality level for video capture 0 low, 1 high (CAPTURE_VIDEO only)
-        public int quality = 1;
+        public int quality = 0;
 
         // The array of results to be returned to the javascript callback on success
         public JSONArray results = new JSONArray();
@@ -191,7 +191,7 @@ public class PendingRequests {
             if (options != null) {
                 this.limit = options.optLong("limit", 1);
                 this.duration = options.optInt("duration", 0);
-                this.quality = options.optInt("quality", 1);
+                this.quality = options.optInt("quality", 0);
             }
 
             this.requestCode = incrementCurrentReqId();
