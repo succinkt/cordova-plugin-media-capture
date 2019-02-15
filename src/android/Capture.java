@@ -302,10 +302,11 @@ public class Capture extends CordovaPlugin {
         } else {
             Intent intent = new Intent(android.provider.MediaStore.ACTION_VIDEO_CAPTURE);
 
-            if(Build.VERSION.SDK_INT > 7){
-                intent.putExtra("android.intent.extra.durationLimit", req.duration);
-                intent.putExtra("android.intent.extra.videoQuality", req.quality);
-            }
+            //if(Build.VERSION.SDK_INT > 7){
+                //intent.putExtra("android.intent.extra.durationLimit", req.duration);
+                intent.putExtra("android.intent.extra.videoQuality", 0);
+                intent.setType("video/3gpp");
+            //}
             this.cordova.startActivityForResult((CordovaPlugin) this, intent, req.requestCode);
         }
     }
