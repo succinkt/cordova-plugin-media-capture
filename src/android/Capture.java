@@ -310,11 +310,7 @@ public class Capture extends CordovaPlugin {
                 PermissionHelper.requestPermission(this, req.requestCode, Manifest.permission.WRITE_EXTERNAL_STORAGE);
             } else {
                 PermissionHelper.requestPermission(this, req.requestCode, Manifest.permission.CAMERA);
-            }
-
-        if(cameraPermissionInManifest && !PermissionHelper.hasPermission(this, Manifest.permission.CAMERA)) {
-            PermissionHelper.requestPermission(this, req.requestCode, Manifest.permission.CAMERA);
-        } else {
+            } else {
             Intent intent = new Intent(android.provider.MediaStore.ACTION_VIDEO_CAPTURE);
 
             //if(Build.VERSION.SDK_INT > 7){
@@ -325,6 +321,7 @@ public class Capture extends CordovaPlugin {
             this.cordova.startActivityForResult((CordovaPlugin) this, intent, req.requestCode);
         }
     }
+}
 
     /**
      * Called when the video view exits.
