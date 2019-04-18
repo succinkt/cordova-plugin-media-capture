@@ -297,6 +297,21 @@ public class Capture extends CordovaPlugin {
      * Sets up an intent to capture video.  Result handled by onActivityResult()
      */
     private void captureVideo(Request req) {
+        boolean needExternalStoragePermission =
+            !PermissionHelper.hasPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        boolean needCameraPermission = cameraPermissionInManifest &&
+            !PermissionHelper.hasPermission(this, Manifest.permission.CAMERA);
+
+        if (needExternalStoragePermission || needCameraPermission) {
+            if (needExternalStoragePermission && needCameraPermission) {
+                PermissionHelper.requestPermissions(this, req.requestCode, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA});
+            } else if (needExternalStoragePermission) {
+                PermissionHelper.requestPermission(this, req.requestCode, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            } else {
+                PermissionHelper.requestPermission(this, req.requestCode, Manifest.permission.CAMERA);
+            }
+
         if(cameraPermissionInManifest && !PermissionHelper.hasPermission(this, Manifest.permission.CAMERA)) {
             PermissionHelper.requestPermission(this, req.requestCode, Manifest.permission.CAMERA);
         } else {
@@ -304,7 +319,7 @@ public class Capture extends CordovaPlugin {
 
             //if(Build.VERSION.SDK_INT > 7){
                 //intent.putExtra("android.intent.extra.durationLimit", req.duration);
-                intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
+                intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, req.quality);
                 
             //}
             this.cordova.startActivityForResult((CordovaPlugin) this, intent, req.requestCode);
